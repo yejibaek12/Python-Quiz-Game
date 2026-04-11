@@ -258,3 +258,29 @@ def add_quiz(self): # 네 번째 메서드
     self.quizzes.append(new_quiz)
     print("퀴즈가 성공적으로 추가되었습니다!")
 ```
+
+④ 퀴즈 목록 확인
+```bash
+def show_quiz_list(self): # 다섯 번째 메서드
+    print("\n현재 퀴즈 목록")
+    if not self. quizzes: 
+        print("등록된 퀴즈가 없습니다.")
+        return
+    for i, quiz in enumerate(self.quizzes, 1): 
+        print(f"{i}. {quiz.question}")
+
+def show_score(self):
+    print(f"\n현재 당신의 점수는 {self.score}점입니다.")
+
+    if self.score == len(self.quizzes):
+        print("축하해요! 모든 문제를 맞혔습니다!")
+    
+    elif self.score >= 4:
+        print("대단해요! 거의 다 맞혔네요.")
+
+    elif self.score > 0:
+        print("아쉬워요! 한 번 더 도전해보세요.")
+
+    else:
+        print("아직은 0점이네요. 1번을 눌러 퀴즈를 풀어보세요.")
+```
