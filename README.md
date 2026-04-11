@@ -199,3 +199,31 @@ def display_menu(self): # 두 번째 메서드
         else:
             print("⚠️ 1~5 사이의 숫자를 입력해주세요.")
 ```
+
+② 퀴즈 풀기 
+```bash
+def run_quiz(self): # 세 번째 메서드
+        print("\n퀴즈 게임을 시작합니다.")
+        self.score = 0 
+
+        for quiz in self.quizzes: 
+            print(f"\n질문: {quiz.question}")
+            for option in quiz.questions:
+                print(option)
+
+            answer = input("정답 번호 입력: ")
+
+            if answer == str(quiz.answer):
+                print("정답입니다!")
+                self.score += 1 
+            else:
+                print(f"틀렸습니다. 정답은 {quiz.answer}번입니다.")
+            
+        print(f"모든 문제를 풀었습니다. 최종 점수: {self.score} / {len(self.quizzes)}")
+
+        if self.score > self.best_score:
+            print(f"축하합니다. 최고 점수가 갱신되었습니다! ({self.best_score} -> {self.score})")
+            self.best_score = self.score
+        else:
+            print(f"현재 최고 점수는 {self.best_score}점입니다.")
+```
