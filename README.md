@@ -227,3 +227,34 @@ def run_quiz(self): # 세 번째 메서드
         else:
             print(f"현재 최고 점수는 {self.best_score}점입니다.")
 ```
+
+③ 퀴즈 추가
+```bash
+def add_quiz(self): # 네 번째 메서드
+    print("\n새로운 퀴즈 추가")
+    question = input("질문을 입력하세요: ").strip()
+
+    options = []
+    for i in range(1, 5):
+        opt = input(f"{i}번 보기를 입력하세요: ").strip()
+        options.append(f"{i}. {opt}")
+
+    while True:
+        try: 
+            answer = int(input("정답 번호를 입력하세요: ")).strip()
+            if not answwer:
+                print("정답 번호를 입력하세요.")
+                continue
+
+            if 1 <= answer <=4:
+                break 
+            else:
+                print("⚠️ 1에서 4 사이의 숫자만 입력 가능합니다.")
+        except ValueError:
+            print("⚠️ 문자가 아닌 '숫자'를 입력해주세요.")
+
+    new_quiz = Quiz(question, options, answer)
+
+    self.quizzes.append(new_quiz)
+    print("퀴즈가 성공적으로 추가되었습니다!")
+```
