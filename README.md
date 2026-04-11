@@ -167,3 +167,12 @@ quiz_list = [
 >
 > **`self` (자기자신)**
 > - 클래스 내부에서 현재 다루고 있는 객체 자신을 가리키는 키워드로, 이를 통해 각 객체가 서로 다른 독립적인 데이터를 저장하고 꺼내쓸수 있음
+
+## (4) QuizGame 클래스 정의
+```bash
+class QuizGame:
+    def __init__(self, quizzes): # 첫 번째 메서드
+        self.quizzes = quizzes
+        self.score = 0
+        self.best_score = 0
+```
