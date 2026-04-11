@@ -375,3 +375,32 @@ def load_data(self): # 일곱 번째 메서드
         print("\n저장된 파일이 없습니다. 기존 퀴즈로 시작합니다.")
         self.best_score = 0
 ```
+
+<br>
+
+# 7. 브랜치 생성 및 병합
+## (1) 현재 브랜치 위치 확인
+```bash
+$ git branch
+* master
+```
+
+## (2) 새 브랜치 생성 및 이동
+```bash
+$ git checkout -b dev-yeji 
+Switched to a new branch 'dev-yeji'
+```
+
+## (3) 현재 활성화된 브랜치 확인
+```bash
+$ git branch
+* dev-yeji
+  master
+```
+
+## (4) 브랜치에 저장
+```bash
+$ git add .
+$ git commit -m "Feat: dev-yeji 브랜치 생성"
+$ git push origin dev-yeji
+```
