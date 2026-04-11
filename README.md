@@ -356,3 +356,22 @@ def save_data(self): # 여섯 번째 메서드
     
     print("\n모든 데이터가 파일에 저장되었습니다.")
 ```
+
+## (3) 파일 불러오기 로직 (load_data) 
+```bash
+def load_data(self): # 일곱 번째 메서드
+    try:
+        with open("state.json", "r", encoding="utf-8") as f:
+            all_data = json.load(f)
+            
+            self.best_score = all_data.get("best_score", 0)
+
+            self.quizzes = []
+            for item in all_data["quizzes"]: 
+                self.quizzes.append(Quiz(item["question"], item["options"], item["answer"]))
+                print("\n기존 데이터를 성공적으로 불러왔습니다. (현재 최고 점수: {self.best_score}점)")
+    
+    except (FileNotFoundError, json.JSONDecodeError): 
+        print("\n저장된 파일이 없습니다. 기존 퀴즈로 시작합니다.")
+        self.best_score = 0
+```
