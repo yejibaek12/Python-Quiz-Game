@@ -284,3 +284,45 @@ def show_score(self):
     else:
         print("아직은 0점이네요. 1번을 눌러 퀴즈를 풀어보세요.")
 ```
+
+<br>
+
+# 5. 메인 실행 부분
+```bash
+game = QuizGame(quiz_list) 
+game.load_data()
+
+try: 
+    while True: 
+        user_choice = game.display_menu()
+
+        if user_choice == "1":
+            game.run_quiz()
+
+        elif user_choice == "2":
+            game.add_quiz()
+            game.save_data()
+    
+        elif user_choice == "3":
+            game.show_quiz_list()
+
+        elif user_choice == "4":
+            print("당신의 최고 점수를 확인합니다.")
+
+        elif user_choice == "5":
+            game.save_data()
+            print("퀴즈 풀기를 종료합니다.")
+            break 
+        
+        else:
+            print("⚠️ 잘못된 입력입니다. 1~5 사이의 숫자를 입력해주세요.")
+
+except KeyboardInterrupt:
+    print("\n사용자에 의해 강제 종료 신호(Ctrl+C)가 감지되었습니다.")
+    game.save_data() 
+    print("데이터를 안전하게 저장한 후 프로그램을 종료합니다.")
+
+except EOFError as e: 
+    print(f"\n예상치 못한 오류가 발생했습니다: {e}")
+    game.save_data()
+```
