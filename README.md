@@ -176,3 +176,26 @@ class QuizGame:
         self.score = 0
         self.best_score = 0
 ```
+## (5) QuizGame 기능별 메서드 구현
+① 메뉴 보여주기
+```bash
+def display_menu(self): # 두 번째 메서드
+    while True: 
+        print("\n=== 퀴즈 게임 메뉴 ===")
+        print("1. 퀴즈 풀기")
+        print("2. 퀴즈 추가")
+        print("3. 퀴즈 목록")
+        print("4. 점수 확인")
+        print("5. 종료")
+
+        choice = input("선택: ").strip()
+
+        if not choice:
+            print("⚠️ 메뉴 번호를 입력해주세요.")
+            continue
+
+        if choice in ["1", "2", "3", "4", "5"]:
+            return choice
+        else:
+            print("⚠️ 1~5 사이의 숫자를 입력해주세요.")
+```
