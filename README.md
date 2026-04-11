@@ -326,3 +326,33 @@ except EOFError as e:
     print(f"\n예상치 못한 오류가 발생했습니다: {e}")
     game.save_data()
 ```
+
+<br>
+
+# 6. 파일 저장/불러오기 (state.json)
+## (1) 라이브러리 임포트
+```bash
+# main.py 파일 최상단
+import json
+```
+## (2) 파일 저장 로직 (save_data)
+```bash
+def save_data(self): # 여섯 번째 메서드 
+    quiz_data_list = []
+    for quiz in self.quizzes:
+        quiz_data_list.append({
+            "question": quiz.question,
+            "options": quiz.options,
+            "answer": quiz.answer
+        })
+        
+    all+data = {
+        "quizzies": quiz_data_list,
+        "best_score": self.best_score
+    }
+
+    with open("state.json", "w", encoding="utf-8") as f:
+        state.json(all_data, f, ensure_ascii=False, indent=4)
+    
+    print("\n모든 데이터가 파일에 저장되었습니다.")
+```
