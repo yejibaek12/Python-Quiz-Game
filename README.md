@@ -80,6 +80,14 @@ python main.py
 }
 ```
 ## **4. 예외 처리 및 안정성**
+>
+> | 구분 | 처리내용 | 코드 위치 | 
+> | :-- | :-- | :-- |
+> | **메뉴 입력** | 1~5 이외의 문자나 빈 값 입력 시 안내 메시지 출력 및 재입력 유도 | `game.py`의 `display_menu()` |
+> | **퀴즈 정답 입력** | 문자를 입력했을 때 `ValueError` 포착(Try-Except) 및 처리 | `game.py`의 `add_quiz()` |
+> | **정답 범위** | 1~4 범위를 벗어난 숫자 입력 시 제한 및 재입력 유도 | `game.py`의 `add_quiz()` |
+> | **깅제 종료** | `Ctrl+C` 입력 시 데이터 자동 저장(`save_data`) 후 종료 | `main.py`의 `KeyboardInterrupt` |
+> | **파일 로딩** | `state.json`미존재 시 `FileNotFoundError` 처리 및 초기 데이터 복구 | `game.py`의 `load_data()` |
 
 <br>
 
