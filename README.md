@@ -1,11 +1,11 @@
 # **I. 프로젝트 소개** 
-## **프로젝트 개요**
+## **1. 프로젝트 개요**
 Python과 Git을 활용하여 터미널 환경에서 동작하는 **나만의 퀴즈 게임**을 직접 설계하고 구현한다. 프로그램의 전체 실행 흐름을 만들고 데이터 영속성과 버전 관리를 경험하는데 목적을 둔다. 
 - **Python 객체 지향 프로그래밍**: 최소 2개 이상의 클래스를 정의하여 역할을 분리하고,  코드를 역할별로 구조화
 - **데이터 영속성 확보**: `state.json` 파일을 활용하여 프로그램 종료 후에도 퀴즈 데이터와 최고 점수를 유지
 - **Git을 이용한 이력 관리**: 기능단위 커밋을 통해 개발 과정을 체계적으로 기록하며, 브랜치를 나누어 작업한 뒤 병합하는 워크플로우를 통해 실제 협업의 기초가 되는 버전 관리 프로세스를 경험
 
-## **실행 환경**
+## **2. 실행 환경**
 - ![VS Code 실행 환경](./screenshot/version.png)
 
 <br>
@@ -26,7 +26,7 @@ python main.py
 
 <br>
 
-# **III. 개발 및 설계 상세**
+# **III. 시스템 설계 및 구조**
 ## **1. 수행 체크리스트**
 **1단계: 저장소 초기 설정**
 - [X] GitHub에 새 저장소 만들기
@@ -57,38 +57,33 @@ python main.py
 - [X] Git 복제: 다른 폴더에 clone 받고 수정 후 push 실습
 - [X] Git pull: 기존 폴더에서 변경사항 가져오기
 
-<br>
+## **2. 프로젝트 구조**
+- `quiz.py`: 퀴즈의 기본 틀을 정의하는 `Quiz` 클래스 포함
+- `game.py`: 퀴즈 출제, 추가, 저장 등 실질적인 게임 로직을 담당하는 `QuizGame` 클래스 포함
+- `main.py`: 프로그램의 진입점(Entry Point). 전체 실행 흐름 관리
+- `state.json`: 데이터 저장소
 
-## **2. 저장소 초기 설정**
-### (1) 폴더 및 파일 생성
-```bash
-$ mkdir Python-Quiz-Game
-$ cd Python-Quiz-Game
-$ touch .gitignore README.md
+## **3. 데이터 설계 (state.json)**
+데이터 영속성을 위해 `state.json` 파일을 사용하여 데이터를 관리합니다. 
+- **역할**: 프로그램을 종료하고 다시 실행해도 기존에 추가한 퀴즈와 최고 점수가 유지되도록 합니다.
+- **데이터 구조 예시**: 
+```python
+{
+    "quizzes": [
+        {
+            "question": "나의 전공은?",
+            "choices": ["1. 철학", "2. 컴퓨터공학", "3. 정치외교학", "4. 영어영문학"],
+            "answer": 1
+        }
+    ],
+    "best_score": 3
+}
 ```
-### (2) 로컬 설정
-```bash 
-$ git init
-```
-
-### (3) 새 저장소 연결 및 확인 
-```bash
-$ git remote add origin https://github.com/yejibaek12/Python-Quiz-Game.git
-
-$ git remote -v
-origin  https://github.com/yejibaek12/Python-Quiz-Game.git (fetch)
-origin  https://github.com/yejibaek12/Python-Quiz-Game.git (push)
-```
-### (4) 커밋 생성
-```bash
-$ git add .
-$ git commit -m "Init: 저장소 초기화 및 기본 파일 생성"
-$ git push origin master
-```
+## **4. 예외 처리 및 안정성**
 
 <br>
 
-## **3. 클래스 정의**
+# **IV. 핵심 로직 구현**
 ### 💡 **파이썬 기초**
 > **변수 (Variable)** 
 > - **정의**: 데이터를 저장하고 관리하기 위해 이름을 붙인 상자
@@ -142,6 +137,7 @@ $ git push origin master
 
 <br>
 
+## **1. 클래스 정의**
 ### (1) 메인 파일 생성
 ```bash
 $ touch main.py 
@@ -154,18 +150,7 @@ class Quiz:
         self.question = question  
         self.options = choices    
         self.answer = answer
-
-quiz_list = [
-    Quiz("나의 전공은?", ["1. 철학", "2. 컴퓨터공학", "3. 정치외교학", "4. 영어영문학"], 1),
-    Quiz("코디세이 참여 이유?", ["1. 친구 권유", "2. 프로그래밍 흥미", "3. 장학금", "4. 새 자극"], 2),
-    Quiz("개발 프로그램 참여 경험?(코디세이 제외)", ["1. 0회", "2. 1회", "3. 2회", "4. 3회 이상"], 1),
-    Quiz("현재 관심 분야는?", ["1. 빅 데이터", "2. AI", "3. IoT", "4. 앱 개발"], 2),
-    Quiz("나의 MBTI는?", ["1. INTJ", "2. INFJ", "3. INFP", "4. INTP"], 3),
-]          
 ```
-
-> **퀴즈 주제 선정 이유** 
-> - 가장 잘 아는 데이터를 활용해 로직의 정확성을 검증하고, 퀴즈라는 형식을 통해 사용자와 소통하는 도구로 활용할 수 있다.
 
 ### 💡 `__init__` 메서드와 `self`
 > **`__init__` 메서드 (생성자)**
@@ -182,8 +167,8 @@ class QuizGame:
         self.score = 0
         self.best_score = 0
 ```
-### (4) QuizGame 기능별 메서드 구현
-① 메뉴 보여주기
+## **2. QuizGame 기능별 메서드 구현**
+### (1) 메뉴 보여주기
 ```python
 def display_menu(self): # 두 번째 메서드
     while True: 
@@ -206,7 +191,7 @@ def display_menu(self): # 두 번째 메서드
             print("⚠️ 1~5 사이의 숫자를 입력해주세요.")
 ```
 
-② 퀴즈 풀기 
+### (2) 퀴즈 풀기 
 ```python
 def run_quiz(self): # 세 번째 메서드
         print("\n퀴즈 게임을 시작합니다.")
@@ -234,7 +219,7 @@ def run_quiz(self): # 세 번째 메서드
             print(f"현재 최고 점수는 {self.best_score}점입니다.")
 ```
 
-③ 퀴즈 추가
+### (3) 퀴즈 추가
 ```python
 def add_quiz(self): # 네 번째 메서드
     print("\n새로운 퀴즈 추가 (취소하려면 'q'를 입력하세요)")
@@ -271,7 +256,7 @@ def add_quiz(self): # 네 번째 메서드
     print("퀴즈가 성공적으로 추가되었습니다!")
 ```
 
-④ 퀴즈 목록 확인
+### (4) 퀴즈 목록 확인
 ```python
 def show_quiz_list(self): # 다섯 번째 메서드
     print("\n현재 퀴즈 목록")
@@ -298,59 +283,72 @@ def show_score(self):
         print("아직은 0점이네요. 1번을 눌러 퀴즈를 풀어보세요.")
 ```
 
-## **4. 메인 실행 부분**
+### **(5) 메인 실행 부분**
 ```python
-game = QuizGame(quiz_list) 
-game.load_data()
+quiz_list = [
+    Quiz("나의 전공은?", ["1. 철학", "2. 컴퓨터공학", "3. 정치외교학", "4. 영어영문학"], 1),
+    Quiz("코디세이 참여 이유?", ["1. 친구 권유", "2. 프로그래밍 흥미", "3. 장학금", "4. 새 자극"], 2),
+    Quiz("개발 프로그램 참여 경험?(코디세이 제외)", ["1. 0회", "2. 1회", "3. 2회", "4. 3회 이상"], 1),
+    Quiz("현재 관심 분야는?", ["1. 빅 데이터", "2. AI", "3. IoT", "4. 앱 개발"], 2),
+    Quiz("나의 MBTI는?", ["1. INTJ", "2. INFJ", "3. INFP", "4. INTP"], 3),
+]      
+if __name__ == "__main__":
+    game = QuizGame(quiz_list) 
+    game.load_data()
 
-try: 
-    while True: 
-        user_choice = game.display_menu()
+    try: 
+        while True: 
+            user_choice = game.display_menu()
 
-        if user_choice == "1":
-            game.run_quiz()
+            if user_choice == "1":
+                game.run_quiz()
 
-        elif user_choice == "2":
-            game.add_quiz()
-            game.save_data()
-    
-        elif user_choice == "3":
-            game.show_quiz_list()
-
-        elif user_choice == "4":
-            print(f"\n현재 최고 점수는 {game.best_score}점입니다.")
-
-        elif user_choice == "5":
-            game.save_data()
-            print("퀴즈 풀기를 종료합니다.")
-            break 
+            elif user_choice == "2":
+                game.add_quiz()
+                game.save_data()
         
-        else:
-            print("⚠️ 잘못된 입력입니다. 1~5 사이의 숫자를 입력해주세요.")
+            elif user_choice == "3":
+                game.show_quiz_list()
 
-except KeyboardInterrupt:
-    print("\n사용자에 의해 강제 종료 신호(Ctrl+C)가 감지되었습니다.")
-    game.save_data() 
-    print("데이터를 안전하게 저장한 후 프로그램을 종료합니다.")
+            elif user_choice == "4":
+                print(f"\n현재 최고 점수는 {game.best_score}점입니다.")
 
-except EOFError as e: 
-    print(f"\n예상치 못한 오류가 발생했습니다: {e}")
-    game.save_data()
+            elif user_choice == "5":
+                game.save_data()
+                print("퀴즈 풀기를 종료합니다.")
+                break 
+            
+            else:
+                print("⚠️ 잘못된 입력입니다. 1~5 사이의 숫자를 입력해주세요.")
+
+    except KeyboardInterrupt:
+        print("\n사용자에 의해 강제 종료 신호(Ctrl+C)가 감지되었습니다.")
+        game.save_data() 
+        print("데이터를 안전하게 저장한 후 프로그램을 종료합니다.")
+
+    except EOFError as e: 
+        print(f"\n예상치 못한 오류가 발생했습니다: {e}")
+        game.save_data()
 ```
 
-## **5. 데이터 관리 (state.json)**
+> **퀴즈 주제 선정 이유** 
+> - 가장 잘 아는 데이터를 활용해 로직의 정확성을 검증하고, 퀴즈라는 형식을 통해 사용자와 소통하는 도구로 활용할 수 있다.
+
+## **3. 파일 입출력**
 ### (1) 라이브러리 임포트
 ```python
 # main.py 파일 최상단
 import json
 ```
-
+> **JSON 형식이란?** 
+> - 'JavaScript Object Notation'의 약자로, 데이터를 저장하거나 주고받을 때 사용하는 텍스트 기반의 표준 형식 
+>
+> **사용목적**
+> - 데이터 영속성 확보: 프로그램이 종료되어도 변수에 담겼던 데이터를 파일 형태로 하드디스크에 저장하여, 다음에 다시 실행했을 때 그대로 불러오기 위함 
+>
 > **`import json` 하는 일**
-> - `json.dump()`: 파이썬 데이터를 파일로 저장할 수 있게 번역
-> - `json.load()`: 파일에 적힌 내용을 다시 파이썬이 읽을 수 있게 번역
-
-> `>`: 덮어쓰기 <br>
-> `>>`: 추가하기
+> - `json.dump()`: 파이썬의 객체(리스트, 딕셔너리 등)를 JSON 형식의 텍스트로 번역하여 파일에 저장
+> - `json.load()`: 파일에 적힌 JSON 텍스트를 다시 파이썬이 이해할 수 있는 객체로 번역하여 불러옴
 
 ### (2) 파일 저장 (save_data)
 ```python
@@ -396,8 +394,35 @@ def load_data(self): # 일곱 번째 메서드
 
 <br>
 
-# **IV. 개발 기록**
-## **1. Git 커밋 컨벤션**
+# **V. 버전 관리 기록 (Git)**
+## **1. 저장소 초기 설정**
+### (1) 폴더 및 파일 생성
+```bash
+$ mkdir Python-Quiz-Game
+$ cd Python-Quiz-Game
+$ touch .gitignore README.md
+```
+### (2) 로컬 설정
+```bash 
+$ git init
+```
+
+### (3) 새 저장소 연결 및 확인 
+```bash
+$ git remote add origin https://github.com/yejibaek12/Python-Quiz-Game.git
+
+$ git remote -v
+origin  https://github.com/yejibaek12/Python-Quiz-Game.git (fetch)
+origin  https://github.com/yejibaek12/Python-Quiz-Game.git (push)
+```
+### (4) 커밋 생성
+```bash
+$ git add .
+$ git commit -m "Init: 저장소 초기화 및 기본 파일 생성"
+$ git push origin master
+```
+
+## **2. Git 커밋 컨벤션**
 ### (1) 개수만 확인
 ```bash
 $ git rev-list --count HEAD
@@ -433,7 +458,7 @@ $ git shortlog -s -n
 17  백예지
 ```
 
-## **2. 브랜치 활용**
+## **3. 브랜치 활용**
 ### (1) 현재 브랜치 위치 확인
 ```bash
 $ git branch
@@ -483,14 +508,16 @@ $ git branch -d dev-yeji
 Deleted branch dev-yeji
 ```
 
-## **3. Git 저장소 복제 실습**
-### (1) 저장소 복제 (clone)
+<br>
+
+# **VI. 원격 저장소 복제 실습**
+## 1. 저장소 복제 (clone)
 ```bash
 # 새로운 폴더로 이동 후 실행
 $ git clone https://github.com/yejibaek12/Python-Quiz-Game.git
 ```
 
-### (2) 복제된 저장소에서 수정 및 반영
+## 2. 복제된 저장소에서 수정 및 반영
 ```bash
 # README.md 한 줄 추가 등 수정 후
 $ git add README.md
@@ -498,13 +525,13 @@ $ git commit -m "Docs: 복제된 저장소에서 README 수정 실습"
 $ git push origin master
 ```
 
-### (3) 기존 작업 디렉터리에서 변경사항 가져오기 (pull)
+## 3. 기존 작업 디렉터리에서 변경사항 가져오기 (pull)
 ```bash
 # 원래 작업 폴더로 이동 후 실행
 $ git pull origin master
 ```
 
-### (4) 최종 확인
+## 4. 최종 확인
 ```bash
 # 파일 내용 확인
 $ cat README.md
