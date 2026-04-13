@@ -404,3 +404,27 @@ $ git add .
 $ git commit -m "Feat: dev-yeji 브랜치 생성"
 $ git push origin dev-yeji
 ```
+
+## (5) 메인 브랜치로 병합
+### ① 메인 브랜치로 이동
+```bash
+$ git checkout master
+Switched to branch 'master'
+```
+
+### ② 작업 브랜치 병합
+```bash
+$ git merge dev-yeji
+```
+
+### ③ 원격 저장소에 반영
+```bash
+$ git push origin master
+```
+
+### ④ (선택) 병합이 완료되어 더 이상 사용하지 않는 브랜치 삭제 
+```bash
+$ git branch -d dev-yeji
+Deleted branch dev-yeji
+```
+<br>
