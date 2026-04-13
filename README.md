@@ -65,9 +65,10 @@ python main.py
 
 ## **3. 데이터 설계 (state.json)**
 데이터 영속성을 위해 `state.json` 파일을 사용하여 데이터를 관리합니다. 
+- **경로**: `./state.json`
 - **역할**: 프로그램을 종료하고 다시 실행해도 기존에 추가한 퀴즈와 최고 점수가 유지되도록 합니다.
 - **데이터 구조 예시**: 
-```python
+```json
 {
     "quizzes": [
         {
@@ -86,7 +87,7 @@ python main.py
 > | **메뉴 입력** | 1~5 이외의 문자나 빈 값 입력 시 안내 메시지 출력 및 재입력 유도 | `game.py`의 `display_menu()` |
 > | **퀴즈 정답 입력** | 문자를 입력했을 때 `ValueError` 포착(Try-Except) 및 처리 | `game.py`의 `add_quiz()` |
 > | **정답 범위** | 1~4 범위를 벗어난 숫자 입력 시 제한 및 재입력 유도 | `game.py`의 `add_quiz()` |
-> | **깅제 종료** | `Ctrl+C` 입력 시 데이터 자동 저장(`save_data`) 후 종료 | `main.py`의 `KeyboardInterrupt` |
+> | **강제 종료** | `Ctrl+C` 입력 시 데이터 자동 저장(`save_data`) 후 종료 | `main.py`의 `KeyboardInterrupt` |
 > | **파일 로딩** | `state.json`미존재 시 `FileNotFoundError` 처리 및 초기 데이터 복구 | `game.py`의 `load_data()` |
 
 <br>
@@ -226,6 +227,8 @@ def run_quiz(self): # 세 번째 메서드
         else:
             print(f"현재 최고 점수는 {self.best_score}점입니다.")
 ```
+![퀴즈 풀기 기능 확인](./screenshot/run.png)
+![점수 기능 확인](./screenshot/score.png)
 
 ### (3) 퀴즈 추가
 ```python
@@ -290,6 +293,7 @@ def show_score(self):
     else:
         print("아직은 0점이네요. 1번을 눌러 퀴즈를 풀어보세요.")
 ```
+![퀴즈 목록](./screenshot/show.png)
 
 ### **(5) 메인 실행 부분**
 ```python
@@ -403,6 +407,13 @@ def load_data(self): # 일곱 번째 메서드
 <br>
 
 # **V. 버전 관리 기록 (Git)**
+### 💡 **커밋 메시지 규칙 (Commit Convention)**
+> - **Feat**: 새로운 기능 구현 
+> - **Fix**: 버그나 오류 수정
+> - **Docs**: 문서 수정 및 추가
+> - **Refactor**: 코드 구조 개선 및 리팩토링
+> - **Init**: 프로젝트 초기 설정
+
 ## **1. 저장소 초기 설정**
 ### (1) 폴더 및 파일 생성
 ```bash
@@ -439,26 +450,10 @@ $ git rev-list --count HEAD
 
 ### (2) 커밋 목록을 한 줄씩 확인
 ```bash
-$ git log --oneline 
+$ git log --oneline  --graph
 # 종료하려면 'q'
-98f5ef2 (HEAD -> master, origin/master, origin/HEAD) Docs: 복제된 저장소에서 README 수정 실습
-fbd4139 Docs: 브랜치 병합 절차 추가
-05f2144 (origin/dev-yeji) Feat: dev-yeji 브랜치 생성
-3f6d188 Feat: 저장된 데이터 불러오기 및 복구 로직 구현
-9711534 Feat: JSON 포맷을 활용한 데이터 저장 기능 구현
-fa1aa7a Feat: 프로그랢 메인 실행 루프 및 전체 흐름 제어 로직 구현
-07df465 Feat: 현재 등록된 전체 퀴즈 목록 조회 기능 구현
-d783efa Feat: 새로운 퀴즈 추가 기능 구현
-8de681f Feat: 퀴즈 출제 로직 및 실시간 정답 확인 기능 구현
-768ed7a Feat: 퀴즈게임 메뉴 표시 및 사용자 입력 로직 구현
-4a5e23b Feat: 퀴즈 게임 클래스 정의
-5cc683c Feat: 퀴즈 클래스 정의 및 퀴즈 데이터셋 추가
-af46819 Docs: 파이썬 기초 문법 및 클래스 개념 정리
-fe06375 Init: 저장소 초기화 및 기본 파일 생성
-f9f64af Docs: 실행 환경 및 수행 체크리스트 추가
-c3ba284 Docs: 프로젝트 개요 작성
-0d5127b initial commit
 ```
+![커밋 로그 그래프](./screenshot/oneline%20graph.png)
 
 ### (3) 나의 커밋만 세고 싶을 때 (협업 중)
 ```bash
