@@ -378,7 +378,45 @@ def load_data(self): # 일곱 번째 메서드
 
 <br>
 
-# 7. 브랜치 생성 및 병합
+# 7. 커밋 기록 확인
+## (1) 개수만 확인
+```bash
+$ git rev-list --count HEAD
+17
+```
+
+## (2) 커밋 목록을 한 줄씩 확인
+```bash
+$ git log --oneline 
+# 종료하려면 'q'
+98f5ef2 (HEAD -> master, origin/master, origin/HEAD) Docs: 복제된 저장소에서 README 수정 실습
+fbd4139 Docs: 브랜치 병합 절차 추가
+05f2144 (origin/dev-yeji) Feat: dev-yeji 브랜치 생성
+3f6d188 Feat: 저장된 데이터 불러오기 및 복구 로직 구현
+9711534 Feat: JSON 포맷을 활용한 데이터 저장 기능 구현
+fa1aa7a Feat: 프로그랢 메인 실행 루프 및 전체 흐름 제어 로직 구현
+07df465 Feat: 현재 등록된 전체 퀴즈 목록 조회 기능 구현
+d783efa Feat: 새로운 퀴즈 추가 기능 구현
+8de681f Feat: 퀴즈 출제 로직 및 실시간 정답 확인 기능 구현
+768ed7a Feat: 퀴즈게임 메뉴 표시 및 사용자 입력 로직 구현
+4a5e23b Feat: 퀴즈 게임 클래스 정의
+5cc683c Feat: 퀴즈 클래스 정의 및 퀴즈 데이터셋 추가
+af46819 Docs: 파이썬 기초 문법 및 클래스 개념 정리
+fe06375 Init: 저장소 초기화 및 기본 파일 생성
+f9f64af Docs: 실행 환경 및 수행 체크리스트 추가
+c3ba284 Docs: 프로젝트 개요 작성
+0d5127b initial commit
+```
+
+## (3) 나의 커밋만 세고 싶을 때 (협업 중)
+```bahs
+$ git shortlog -s -n
+17  백예지
+```
+
+<br>
+
+# 8. 브랜치 생성 및 병합
 ## (1) 현재 브랜치 위치 확인
 ```bash
 $ git branch
@@ -428,3 +466,30 @@ $ git branch -d dev-yeji
 Deleted branch dev-yeji
 ```
 <br>
+
+# 9. Git 저장소 복제 실습
+## (1) 저장소 복제 (clone)
+```bash
+# 새로운 폴더로 이동 후 실행
+$ git clone https://github.com/yejibaek12/Python-Quiz-Game.git
+```
+
+## (2) 복제된 저장소에서 수정 및 반영
+```bash
+# README.md 한 줄 추가 등 수정 후
+$ git add README.md
+$ git commit -m "Docs: 복제된 저장소에서 README 수정 실습"
+$ git push origin master
+```
+
+## (3) 기존 작업 디렉터리에서 변경사항 가져오기 (pull)
+```bash
+# 원래 작업 폴더로 이동 후 실행
+$ git pull origin master
+```
+
+## (4) 최종 확인
+```bash
+# 파일 내용 확인
+$ cat README.md
+```
