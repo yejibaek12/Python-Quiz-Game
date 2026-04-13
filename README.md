@@ -428,3 +428,30 @@ $ git branch -d dev-yeji
 Deleted branch dev-yeji
 ```
 <br>
+
+# 8. Git 저장소 복제 실습
+## (1) 저장소 복제 (clone)
+```bash
+# 새로운 폴더로 이동 후 실행
+$ git clone https://github.com/yejibaek12/Python-Quiz-Game.git
+```
+
+## (2) 복제된 저장소에서 수정 및 반영
+```bash
+# README.md 한 줄 추가 등 수정 후
+$ git add README.md
+$ git commit -m "Docs: 복제된 저장소에서 README 수정 실습"
+$ git push origin master
+```
+
+## (3) 기존 작업 디렉터리에서 변경사항 가져오기 (pull)
+```bash
+# 원래 작업 폴더로 이동 후 실행
+$ git pull origin master
+```
+
+## (4) 최종 확인
+```bash
+# 파일 내용 확인
+$ cat README.md
+```
