@@ -477,6 +477,7 @@ $ git clone https://github.com/yejibaek12/Python-Quiz-Game.git
 ## 2. 복제된 저장소에서 수정 및 반영
 ```bash
 # README.md 한 줄 추가 등 수정 후
+$ echo "git clone/pull test" >> README.md
 $ git add README.md
 $ git commit -m "Docs: 복제된 저장소에서 README 수정 실습"
 $ git push origin master
@@ -493,3 +494,4 @@ $ git pull origin master
 # 파일 내용 확인
 $ cat README.md
 ```
+git clone/pull test
