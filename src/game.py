@@ -41,7 +41,7 @@ class QuizGame:
                 
                 print(f"\n기존 데이터를 성공적으로 불러왔습니다. (현재 최고 점수: {self.best_score}점)")
         
-        except (FileNotFoundError, json.JSONDecodeError): 
+        except (FileNotFoundError, json.JSONDecodeError, KeyError): 
             print("\n저장된 파일이 없습니다. 기존 퀴즈로 시작합니다.")
             self.best_score = 0
 
@@ -64,58 +64,96 @@ class QuizGame:
             if choice in ["1", "2", "3", "4", "5"]:
                 return choice
             else:
-                print("⚠️ 1~5 사이의 숫자를 입력해주세요.")
+                print("⚠️ 잘못된 입력입니다. 1~5 사이의 숫자를 입력해주세요.")
             
 
     def run_quiz(self): # 세 번째 메서드
-            print("\n퀴즈 게임을 시작합니다.")
-            self.score = 0 
+        print("\n퀴즈 게임을 시작합니다.")
+        self.score = 0 
 
-            for quiz in self.quizzes: 
-                print(f"\n질문: {quiz.question}")
-                for option in quiz.options:
-                    print(option)
+        for quiz in self.quizzes: 
+            print(f"\n질문: {quiz.question}")
+            for option in quiz.options:
+                print(option)
 
-                answer = input("정답 번호 입력: ")
-
-                if answer == str(quiz.answer):
-                    print("정답입니다!")
-                    self.score += 1 
-                else:
-                    print(f"틀렸습니다. 정답은 {quiz.answer}번입니다.")
+            # 1. 공백 입력을 방지하고 값을 받을 때까지 반복
+            while True:
+                answer = input("정답 번호 입력: ").strip()
                 
-            print(f"모든 문제를 풀었습니다. 최종 점수: {self.score} / {len(self.quizzes)}")
+                # 입력값이 비어있는 경우 (공백 처리)
+                if not answer:
+                    print("⚠️ 정답 번호를 입력해야 합니다.")
+                    continue
+                
+                # 숫자가 아닌 문자나 특수기호가 포함된 경우
+                if not answer.isdigit():
+                    print("⚠️ 문자가 아닌 '숫자'로만 입력해주세요.")
+                    continue
+                
+                if 1 <= int(answer) <= 4:
+                    break 
+                else:
+                    print("⚠️ 보기에 있는 번호(1~4)를 입력해주세요.")
+                    continue
 
-            if self.score > self.best_score:
-                print(f"축하합니다. 최고 점수가 갱신되었습니다! ({self.best_score} -> {self.score})")
-                self.best_score = self.score
+                # 모든 조건을 통과하면 루프 탈출
+                break
+            
+            # 2. 정답 체크 (while 루프 밖, for 루프 안)
+            if answer == str(quiz.answer):
+                print("정답입니다!")
+                self.score += 1 
             else:
-                print(f"현재 최고 점수는 {self.best_score}점입니다.")
+                print(f"틀렸습니다. 정답은 {quiz.answer}번입니다.")
+        
+        # 3. 모든 문제를 다 푼 후 결과 출력 (for 루프 밖)
+        print(f"\n모든 문제를 풀었습니다. 최종 점수: {self.score} / {len(self.quizzes)}")
+
+        if self.score > self.best_score:
+            print(f"축하합니다. 최고 점수가 갱신되었습니다! ({self.best_score} -> {self.score})")
+            self.best_score = self.score
+        else:
+            print(f"현재 최고 점수는 {self.best_score}점입니다.")
 
 
     def add_quiz(self): # 네 번째 메서드
         print("\n새로운 퀴즈 추가 (취소하려면 'q'를 입력하세요)")
-        question = input("질문을 입력하세요: ").strip()
+        
+        # 1. 질문 입력 시 공백 체크 루프
+        while True:
+            question = input("질문을 입력하세요: ").strip()
+            
+            if not question: # 공백 입력 시
+                print("⚠️ 질문 내용을 입력해야 합니다.")
+                continue
+            
+            if question.lower() == 'q': # 취소 로직
+                print("취소되었습니다.")
+                return
+            
+            break # 정상 입력 시 루프 탈출
 
-        if question.lower() == 'q':
-            print("취소되었습니다.")
-            return
-
+        # 2. 보기 입력 (여기에도 공백 체크를 넣으면 더 좋습니다)
         options = []
         for i in range(1, 5):
-            opt = input(f"{i}번 보기를 입력하세요: ").strip()
-            options.append(f"{i}. {opt}")
+            while True:
+                opt = input(f"{i}번 보기를 입력하세요: ").strip()
+                if opt:
+                    options.append(f"{i}. {opt}")
+                    break
+                print(f"⚠️ {i}번 보기 내용을 입력해주세요.")
 
+        # 3. 정답 번호 입력 (기존 코드 유지)
         while True:
             try: 
                 answer = input("정답 번호를 입력하세요: ").strip()
                 if not answer:
-                    print("정답 번호를 입력하세요.")
+                    print("⚠️ 정답 번호를 입력하세요.")
                     continue
                 
                 answer = int(answer)
 
-                if 1 <= answer <=4:
+                if 1 <= answer <= 4:
                     break 
                 else:
                     print("⚠️ 1에서 4 사이의 숫자만 입력 가능합니다.")
@@ -123,7 +161,6 @@ class QuizGame:
                 print("⚠️ 문자가 아닌 '숫자'를 입력해주세요.")
 
         new_quiz = Quiz(question, options, answer)
-
         self.quizzes.append(new_quiz)
         print("퀴즈가 성공적으로 추가되었습니다!")
 

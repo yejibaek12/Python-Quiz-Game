@@ -49,27 +49,7 @@
                 "4. INTP"
             ],
             "answer": 3
-        },
-        {
-            "question": "test",
-            "options": [
-                "1. 1",
-                "2. 2",
-                "3. 3",
-                "4. 4"
-            ],
-            "answer": 1
-        },
-        {
-            "question": "test2",
-            "options": [
-                "1. 1",
-                "2. 2",
-                "3. 3",
-                "4. 4"
-            ],
-            "answer": 2
         }
     ],
-    "best_score": 6
+    "best_score": 0
 }
