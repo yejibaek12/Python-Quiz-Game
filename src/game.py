@@ -1,5 +1,5 @@
 import json
-from quiz import Quiz
+from src.quiz import Quiz
 
 # 퀴즈 게임 클래스
 class QuizGame:

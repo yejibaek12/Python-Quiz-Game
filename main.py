@@ -1,5 +1,5 @@
-from quiz import Quiz
-from game import QuizGame
+from src.quiz import Quiz
+from src.game import QuizGame
 
 # 기본 퀴즈 데이터셋
 quiz_list = [
