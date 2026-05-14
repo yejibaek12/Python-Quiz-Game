@@ -508,3 +508,4 @@ $ git pull origin master
 $ cat README.md
 ```
 git clone/pull test
+test
